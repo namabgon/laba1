@@ -3,6 +3,7 @@ using namespace std;
 
 int number1()
 {
+    setlocale(LC_ALL, "rus");
     char str[50];
     FILE* input_file, * output_file;
     char file_name[50];
