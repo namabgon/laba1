@@ -2,6 +2,7 @@
 #include <iostream>
 #include <windows.h>
 #include <conio.h>
+#include <ctime>
 using namespace std;
 
 int number1()
@@ -316,34 +317,31 @@ int number5()
 int number6()
 {
     // Создание типизированных файлов для номера 6
-    /*int number, kolvo;
+    /*srand(time(NULL));
+    const int KOLVO = 10;
+    int number[KOLVO];
     char fname1[20], fname2[20];
     FILE* fc;
-
-    cout << "Введите размер файлов (кол-во чисел в одном файле): ";
-    cin >> kolvo;
     cout << "Введите имя первого файла: ";
     cin >> fname1;
     fc = fopen(fname1, "wb");
-    for (int i = 0; i < kolvo; i++)
+    for (int i = 0; i < KOLVO; i++)
     {
-        cout << "Введите число: ";
-        cin >> number;
-        fwrite(&number, sizeof(int), 1, fc);
+        number[i] = 1 + rand() % 20;
     }
-    cout << "\nФайл " << fname1 << " создан.\n\n";
+    fwrite(number, sizeof(int), KOLVO, fc);
+    cout << "Файл " << fname1 << " создан.\n\n";
     fclose(fc);
 
     cout << "Введите имя второго файла: ";
     cin >> fname2;
     fc = fopen(fname2, "wb");
-    for (int i = 0; i < kolvo; i++)
+    for (int i = 0; i < KOLVO; i++)
     {
-        cout << "Введите число: ";
-        cin >> number;
-        fwrite(&number, sizeof(int), 1, fc);
+        number[i] = 100 + rand() % 20;
     }
-    cout << "\nФайл " << fname2 << " создан.\n";
+    fwrite(number, sizeof(int), KOLVO, fc);
+    cout << "Файл " << fname2 << " создан.\n";
     fclose(fc);
     return 0;*/
 
@@ -410,6 +408,8 @@ int number6()
     }
     cout << "\n\nВ файл number6_out.bin была записана сумма соответствующих элементов заданных файлов.\n";
     fclose(output_file);
+    fclose(input_file1);
+    fclose(input_file2);
     output_file = fopen("number6_out.bin", "rb");
 
 
@@ -423,8 +423,6 @@ int number6()
     }
 
 
-    fclose(input_file1);
-    fclose(input_file2);
     fclose(output_file);
     cout << "\n\nФайлы успешно закрыты." << endl;
     return 0;
