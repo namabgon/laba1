@@ -8,6 +8,7 @@ using namespace std;
 int number1()
 {
     char str[50];
+    // FILE* — это указатель на структуру, которая используется для работы с файлами
     FILE* input_file, * output_file;
     char file_name[50];
     int str_number = 0;
@@ -15,29 +16,42 @@ int number1()
         << "разместив ее после пятой строки. Результат записать в другой файл\n\n";
     cout << "Введите имя файла: ";
     cin >> file_name;
+    // fopen() используется для открытия файла и возвращает указатель
+    // на объект типа FILE (если файл успешно открыт),
+    // который представляет собой поток для работы с файлом.
     input_file = fopen(file_name, "r");
     output_file = fopen("number1_out.txt", "w");
+    // Если произошла ошибка, fopen возвращает NULL
     if (input_file == NULL)
     {
         cout << "Ошибка. Возможно файл отсутствует.\n";
         fclose(output_file);
-        return 0;
+        return -1;
     }
     cout << "Файл " << file_name << " успешно открыт." << endl;
 
 
+    // feof() используется для проверки, достигнут ли конец файла
+    // Если достигнут конец файла, то возвращает ненулевое значение,
+    // иначе - 0
     while (!feof(input_file))
     {
+        // fgets() используется для чтения строки из файла
+        // возвращает указатель на введенную строку
+        // если произошла ошибка, то возвращает NULL
         if (fgets(str, 50, input_file) != NULL)
         {
             if (str_number == 5)
             {
+                // fputs() используется для записи строки в файл
+                // возвращает ненулевое значение при успешной записи строки
+                // при возникновении ошибки возвращает EOF
                 if (fputs("------------\n", output_file) == EOF)
                 {
                     cout << "Произошла ошибка записи в файл.\n";
                     fclose(input_file);
                     fclose(output_file);
-                    return 0;
+                    return -1;
                 }
             }
 
@@ -46,7 +60,7 @@ int number1()
                 cout << "Произошла ошибка записи в файл.\n";
                 fclose(input_file);
                 fclose(output_file);
-                return 0;
+                return -1;
             }
             str_number++;
         }
@@ -55,7 +69,7 @@ int number1()
             cout << "Произошла ошибка при чтении файла.\n";
             fclose(input_file);
             fclose(output_file);
-            return 0;
+            return -1;
         }
     }
 
@@ -63,7 +77,7 @@ int number1()
     cout << "\nВ файл добавлена строка из двенадцати символов '-' после 5-ой строки.\n"
         << "Результат записан в файл number1_out.txt\n";
 
-
+    // fclose() используется для закрытия потока, связанного с указанным параметром
     fclose(input_file);
     fclose(output_file);
     cout << "\nФайлы успешно закрыты." << endl;
@@ -84,7 +98,7 @@ int number2()
     if (input_file == NULL)
     {
         cout << "Ошибка. Возможно файл " << file_name << " отсутствует.\n";
-        return 0;
+        return -1;
     }
     cout << "Файл " << file_name << " успешно открыт." << endl << endl;
 
@@ -93,6 +107,9 @@ int number2()
     {
         if (fgets(str, 50, input_file) != NULL)
         {
+            // strlen() используется для вычисления длины строки,
+            // которая представлена в виде массива символов
+            // не учитывает нулевой символ ('0') в подсчете длины строки
             for (int i = 0; i < strlen(str) - 1; i++)
             {
                 if (str[i] == 'и')
@@ -111,7 +128,7 @@ int number2()
         {
             cout << "Произошла ошибка при чтении файла.\n";
             fclose(input_file);
-            return 0;
+            return -1;
         }
     }
 
@@ -138,7 +155,7 @@ int number3()
     {
         cout << "Ошибка. Возможно файл " << file_name << " отсутствует.\n";
         fclose(output_file);
-        return 0;
+        return -1;
     }
     cout << "Файл " << file_name << " успешно открыт." << endl;
 
@@ -154,7 +171,7 @@ int number3()
                     cout << "Произошла ошибка при записи в файл.\n";
                     fclose(input_file);
                     fclose(output_file);
-                    return 0;
+                    return -1;
                 }
             }
         }
@@ -163,7 +180,7 @@ int number3()
             cout << "Произошла ошибка при чтении файла.\n";
             fclose(input_file);
             fclose(output_file);
-            return 0;
+            return -1;
         }
     }
 
@@ -181,21 +198,17 @@ int number3()
 int number4()
 {
     // Создание типизированного файла для номера 4
-    /*const int ESC = 27;
-    int num;
+    /*srand(time(NULL));
+    const int KOLVO = 10;
+    int num[KOLVO];
     char fname[20];
     FILE* fc;
     cout << "Введите имя файла: ";
     cin >> fname;
     fc = fopen(fname, "wb");
-    int req = 0;
-    while (req != ESC)
+    for (int i = 0; i < KOLVO; i++)
     {
-        cout << "Введите число: ";
-        cin >> num;
-        fwrite(&num, sizeof(int), 1, fc);
-        cout << "Для продолжения записи нажмите любую клавишу, для завершения - ESC:\n";
-        req = _getch();
+        number[i] = 1 + rand() % 100;
     }
     cout << "\n\nФайл " << fname << " создан.\n";
     fclose(fc);*/
@@ -213,18 +226,20 @@ int number4()
     if (input_file == NULL)
     {
         cout << "Ошибка. Возможно файл " << file_name << " отсутствует.\n";
-        return 0;
+        return -1;
     }
     cout << "Файл " << file_name << " успешно открыт." << endl << endl;
     cout << "Содержимое файла " << file_name << ": \n";
     while (!feof(input_file))
     {
+        // fread()используется для чтения бинарных данных из файла
         if (fread(&number, sizeof(int), 1, input_file) == 1)
         {
             cout << number << " ";
         }
     }
 
+    // rewind() используется для перемещения указателя позиции чтения/записи в начало файла
     rewind(input_file);
     cout << "\n\nДанные из файла после обработки:\n";
     while (!feof(input_file))
@@ -281,7 +296,7 @@ int number5()
     if (input_file == NULL)
     {
         cout << "Ошибка. Возможно файл отсутствует.\n";
-        return 0;
+        return -1;
     }
     cout << "Файл " << file_name << " успешно открыт." << endl << endl;
 
@@ -362,7 +377,7 @@ int number6()
     if (input_file1 == NULL)
     {
         cout << "Ошибка. Возможно файл " << file_name1 << " отсутствует.\n";
-        return 0;
+        return -1;
     }
     cout << "Файл " << file_name1 << " успешно открыт." << endl;
     cout << "Содержимое первого файла: ";
@@ -381,7 +396,7 @@ int number6()
     if (input_file2 == NULL)
     {
         cout << "Ошибка. Возможно файл " << file_name2 << " отсутствует.\n";
-        return 0;
+        return -1;
     }
     cout << "Файл " << file_name2 << " успешно открыт.";
     cout << "\nСодержимое второго файла: ";
@@ -403,6 +418,7 @@ int number6()
             fread(&num2, sizeof(int), 1, input_file2) == 1)
         {
             num3 = num1 + num2;
+            // fwrite() используется для записи в файл блоков данных любого типа
             fwrite(&num3, sizeof(int), 1, output_file);
         }
     }
