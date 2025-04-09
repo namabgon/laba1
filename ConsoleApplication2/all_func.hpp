@@ -1,19 +1,25 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <windows.h>
-#include <conio.h>
 #include <ctime>
+#include <conio.h>
 using namespace std;
 
 int number1()
 {
+    // setlocale() используется для установки локали программы. 
+    // Локаль определяет язык, формат даты
+    // и времени, формат чисел и другие культурные аспекты
+    setlocale(LC_ALL, "rus");
     char str[50];
-    // FILE* — это указатель на структуру, которая используется для работы с файлами
+    // FILE* — это указатель на структуру, 
+    // которая используется для работы с файлами
     FILE* input_file, * output_file;
     char file_name[50];
     int str_number = 0;
-    cout << "1. Дан текстовый файл. Добавить в него строку из двенадцати символов ‘-’,\n"
-        << "разместив ее после пятой строки. Результат записать в другой файл\n\n";
+    cout << "1. Дан текстовый файл. Добавить в него строку"
+         << "из двенадцати символов ‘ - ’, \n"
+         << "разместив ее после пятой строки."
+         << "Результат записать в другой файл\n\n";
     cout << "Введите имя файла: ";
     cin >> file_name;
     // fopen() используется для открытия файла и возвращает указатель
@@ -44,7 +50,8 @@ int number1()
             if (str_number == 5)
             {
                 // fputs() используется для записи строки в файл
-                // возвращает ненулевое значение при успешной записи строки
+                // возвращает ненулевое значение при успешной
+                // записи строки
                 // при возникновении ошибки возвращает EOF
                 if (fputs("------------\n", output_file) == EOF)
                 {
@@ -74,10 +81,12 @@ int number1()
     }
 
 
-    cout << "\nВ файл добавлена строка из двенадцати символов '-' после 5-ой строки.\n"
+    cout << "\nВ файл добавлена строка из двенадцати"
+        << "символов '-' после 5 - ой строки.\n"
         << "Результат записан в файл number1_out.txt\n";
 
-    // fclose() используется для закрытия потока, связанного с указанным параметром
+    // fclose() используется для закрытия потока, связанного
+    // с указанным параметром
     fclose(input_file);
     fclose(output_file);
     cout << "\nФайлы успешно закрыты." << endl;
@@ -97,10 +106,12 @@ int number2()
     int count_word = 0, count = 0;
     if (input_file == NULL)
     {
-        cout << "Ошибка. Возможно файл " << file_name << " отсутствует.\n";
+        cout << "Ошибка. Возможно файл " << file_name 
+            << " отсутствует.\n";
         return -1;
     }
-    cout << "Файл " << file_name << " успешно открыт." << endl << endl;
+    cout << "Файл " << file_name << " успешно открыт." 
+        << endl << endl;
 
 
     while (!feof(input_file))
@@ -109,7 +120,7 @@ int number2()
         {
             // strlen() используется для вычисления длины строки,
             // которая представлена в виде массива символов
-            // не учитывает нулевой символ ('0') в подсчете длины строки
+            // не учитывает нулевой символ в подсчете длины строки
             for (int i = 0; i < strlen(str) - 1; i++)
             {
                 if (str[i] == 'и')
@@ -132,7 +143,8 @@ int number2()
         }
     }
 
-    cout << "Количество строк с пятью буквами 'и': " << count << endl;
+    cout << "Количество строк с пятью буквами 'и': " << count
+        << endl;
 
 
     fclose(input_file);
@@ -145,7 +157,8 @@ int number3()
     char str[80];
     FILE* input_file, *output_file;
     char file_name[50];
-    cout << "3. Дан текстовый файл. Переписать в другой файл те его строки,\n"
+    cout << "3. Дан текстовый файл. Переписать"
+        << "в другой файл те его строки, \n"
         << "в которых имеется более тридцати символов\n\n";
     cout << "Введите имя файла: ";
     cin >> file_name;
@@ -153,7 +166,8 @@ int number3()
     output_file = fopen("number3_out.txt", "w");
     if (input_file == NULL)
     {
-        cout << "Ошибка. Возможно файл " << file_name << " отсутствует.\n";
+        cout << "Ошибка. Возможно файл " << file_name 
+            << " отсутствует.\n";
         fclose(output_file);
         return -1;
     }
@@ -185,7 +199,8 @@ int number3()
     }
 
 
-    cout << "\nСтроки, в которых больше тридцати символов, успешно\n"
+    cout << "\nСтроки, в которых больше"
+        << "тридцати символов, успешно\n"
         << "переписаны в файл number3_out.txt\n\n";
 
 
@@ -198,37 +213,53 @@ int number3()
 int number4()
 {
     // Создание типизированного файла для номера 4
-    /*srand(time(NULL));
+
+    // srand(time(NULL)) используется для инициализации
+    // генератора случайных чисел
+    srand(time(NULL));
+    char ans;
     const int KOLVO = 10;
     int num[KOLVO];
     char fname[20];
-    FILE* fc;
-    cout << "Введите имя файла: ";
-    cin >> fname;
-    fc = fopen(fname, "wb");
-    for (int i = 0; i < KOLVO; i++)
+    FILE* type_file;
+    cout << "Хотите ли создать типизированный файл "
+        << "для номера 4 (y / n): ";
+    cin >> ans;
+    if (ans == 'y')
     {
-        number[i] = 1 + rand() % 100;
+        cout << "Введите имя файла: ";
+        cin >> fname;
+        type_file = fopen(fname, "wb");
+        for (int i = 0; i < KOLVO; i++)
+        {
+            num[i] = 1 + rand() % 100;
+        }
+        // fwrite() используется для записи в файл
+        // блоков данных любого типа
+        fwrite(num, sizeof(int), KOLVO, type_file);
+        cout << "\nФайл " << fname << " создан.\n\n";
+        fclose(type_file);
     }
-    cout << "\n\nФайл " << fname << " создан.\n";
-    fclose(fc);*/
 
-
+    // Основная программа
     int number;
     FILE* input_file;
     char file_name[50];
     int str_number = 1;
-    cout << "4. Имеется типизированный файл с числами. Вывести на экран\n"
+    cout << "4. Имеется типизированный файл с числами. "
+        << "Вывести на экран\n"
         << "все его элементы с нечетным порядковым номером.\n\n";
     cout << "Введите имя файла: ";
     cin >> file_name;
     input_file = fopen(file_name, "rb");
     if (input_file == NULL)
     {
-        cout << "Ошибка. Возможно файл " << file_name << " отсутствует.\n";
+        cout << "Ошибка. Возможно файл " << file_name
+            << " отсутствует.\n";
         return -1;
     }
-    cout << "Файл " << file_name << " успешно открыт." << endl << endl;
+    cout << "Файл " << file_name << " успешно открыт." 
+        << endl << endl;
     cout << "Содержимое файла " << file_name << ": \n";
     while (!feof(input_file))
     {
@@ -239,7 +270,8 @@ int number4()
         }
     }
 
-    // rewind() используется для перемещения указателя позиции чтения/записи в начало файла
+    // rewind() используется для перемещения 
+    // указателя позиции чтения / записи в начало файла
     rewind(input_file);
     cout << "\n\nДанные из файла после обработки:\n";
     while (!feof(input_file))
@@ -263,33 +295,45 @@ int number4()
 int number5()
 {
     // Создание типизированного файла для номера 5
-    /*const int ESC = 27;
+    const int ESC = 27;
     char slovo[30];
     char fname[20];
-    FILE* fc;
-    cout << "Введите имя файла: ";
-    cin >> fname;
-    fc = fopen(fname, "wb");
-    int req = 0;
-    while (req != ESC)
+    FILE* type_file;
+    char ans;
+    cout << "Хотите ли создать типизированный файл "
+        << "для номера 5 (y / n): ";
+    cin >> ans;
+    if (ans == 'y')
     {
-        cout << "Введите слово: ";
-        cin >> slovo;
-        fwrite(slovo, sizeof(char), 30, fc);
-        cout << "Для продолжения записи нажмите любую клавишу, для завершения - ESC:\n";
-        req = _getch();
+        cout << "Введите имя файла: ";
+        cin >> fname;
+        type_file = fopen(fname, "wb");
+        int req = 0;
+        while (req != ESC)
+        {
+            cout << "Введите слово: ";
+            cin >> slovo;
+            fwrite(slovo, sizeof(char), 30, type_file);
+            cout << "Для продолжения записи нажмите любую клавишу"
+                << ", для завершения - ESC:\n";
+            // _getch() используется для получения одного 
+            // символа с клавиатуры без необходимости 
+            // нажимать клавишу Enter
+            req = _getch();
+        }
+        cout << "\nФайл " << fname << " создан.\n\n";
+        fclose(type_file);
     }
-    cout << "\n\nФайл " << fname << " создан.\n";
-    fclose(fc);
-    return 0;*/
 
-
+    // Основная программа
     char str[30];
     char file_name[30];
     int str_number = 1;
     FILE* input_file;
-    cout << "5. Дан типизированный файл, элементами которого являются отдельные слова.\n"
-        << "Получить предложение, составленное из слов, порядковый номер которых четный.";
+    cout << "5. Дан типизированный файл, элементами которого"
+        << " являются отдельные слова.\n"
+        << "Получить предложение, составленное из слов,"
+        << " порядковый номер которых четный.";
     cout << "\n\nВведите имя файла: ";
     cin >> file_name;
     input_file = fopen(file_name, "rb");
@@ -298,7 +342,8 @@ int number5()
         cout << "Ошибка. Возможно файл отсутствует.\n";
         return -1;
     }
-    cout << "Файл " << file_name << " успешно открыт." << endl << endl;
+    cout << "Файл " << file_name << " успешно открыт."
+        << endl << endl;
 
 
     cout << "Содержимое файла " << file_name << ": \n";
@@ -332,51 +377,56 @@ int number5()
 int number6()
 {
     // Создание типизированных файлов для номера 6
-    /*srand(time(NULL));
+    srand(time(NULL));
     const int KOLVO = 10;
     int number[KOLVO];
     char fname1[20], fname2[20];
-    FILE* fc;
-    cout << "Введите имя первого файла: ";
-    cin >> fname1;
-    fc = fopen(fname1, "wb");
-    for (int i = 0; i < KOLVO; i++)
+    char ans;
+    FILE* type_file;
+    cout << "Хотите ли создать типизированные файлы"
+        << " для номера 6 (y / n): ";
+    cin >> ans;
+    if (ans == 'y')
     {
-        number[i] = 1 + rand() % 20;
+        cout << "Введите имя первого файла: ";
+        cin >> fname1;
+        type_file = fopen(fname1, "wb");
+        for (int i = 0; i < KOLVO; i++)
+        {
+            number[i] = 1 + rand() % 20;
+        }
+        fwrite(number, sizeof(int), KOLVO, type_file);
+        cout << "Файл " << fname1 << " создан.\n\n";
+        fclose(type_file);
+
+        cout << "Введите имя второго файла: ";
+        cin >> fname2;
+        type_file = fopen(fname2, "wb");
+        for (int i = 0; i < KOLVO; i++)
+        {
+            number[i] = 100 + rand() % 20;
+        }
+        fwrite(number, sizeof(int), KOLVO, type_file);
+        cout << "Файл " << fname2 << " создан.\n";
+        fclose(type_file);
     }
-    fwrite(number, sizeof(int), KOLVO, fc);
-    cout << "Файл " << fname1 << " создан.\n\n";
-    fclose(fc);
 
-    cout << "Введите имя второго файла: ";
-    cin >> fname2;
-    fc = fopen(fname2, "wb");
-    for (int i = 0; i < KOLVO; i++)
-    {
-        number[i] = 100 + rand() % 20;
-    }
-    fwrite(number, sizeof(int), KOLVO, fc);
-    cout << "Файл " << fname2 << " создан.\n";
-    fclose(fc);
-    return 0;*/
-
-
-
-
+    // Основная программа
     char file_name1[30], file_name2[30];
     int num1, num2, num3;
     FILE* input_file1, * input_file2, *output_file;
-    cout << "6. Имеются два типизированных файла одинакового размера, элементами которых являются числа.\n"
-        << "Получить третий файл, каждый элемент которого равен сумме"
-        << "соответствующих элементов заданных файлов.";
-
+    cout << "6. Имеются два типизированных файла одинакового"
+        << " размера, элементами которых являются числа.\n"
+        << "Получить третий файл, каждый элемент которого равен "
+        << "сумме соответствующих элементов заданных файлов.";
 
     cout << "\n\nВведите имя первого файла: ";
     cin >> file_name1;
     input_file1 = fopen(file_name1, "rb");
     if (input_file1 == NULL)
     {
-        cout << "Ошибка. Возможно файл " << file_name1 << " отсутствует.\n";
+        cout << "Ошибка. Возможно файл " << file_name1
+            << " отсутствует.\n";
         return -1;
     }
     cout << "Файл " << file_name1 << " успешно открыт." << endl;
@@ -395,7 +445,9 @@ int number6()
     input_file2 = fopen(file_name2, "rb");
     if (input_file2 == NULL)
     {
-        cout << "Ошибка. Возможно файл " << file_name2 << " отсутствует.\n";
+        cout << "Ошибка. Возможно файл " << file_name2 
+            << " отсутствует.\n";
+        fclose(input_file1);
         return -1;
     }
     cout << "Файл " << file_name2 << " успешно открыт.";
@@ -411,23 +463,23 @@ int number6()
 
     output_file = fopen("number6_out.bin", "wb");
 
-
     while (!feof(input_file1) && !feof(input_file2))
     {
         if (fread(&num1, sizeof(int), 1, input_file1) == 1 && 
             fread(&num2, sizeof(int), 1, input_file2) == 1)
         {
             num3 = num1 + num2;
-            // fwrite() используется для записи в файл блоков данных любого типа
+            // fwrite() используется для записи в файл
+            // блоков данных любого типа
             fwrite(&num3, sizeof(int), 1, output_file);
         }
     }
-    cout << "\n\nВ файл number6_out.bin была записана сумма соответствующих элементов заданных файлов.\n";
+    cout << "\n\nВ файл number6_out.bin была записана сумма "
+        << "соответствующих элементов заданных файлов.\n";
     fclose(output_file);
     fclose(input_file1);
     fclose(input_file2);
     output_file = fopen("number6_out.bin", "rb");
-
 
     cout << "Содержимое файла number6_out.bin:\n";
     while (!feof(output_file))
@@ -437,7 +489,6 @@ int number6()
             cout << num3 << " ";
         }
     }
-
 
     fclose(output_file);
     cout << "\n\nФайлы успешно закрыты." << endl;
